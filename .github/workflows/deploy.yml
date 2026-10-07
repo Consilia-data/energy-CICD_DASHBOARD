@@ -9,10 +9,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v4
-      - name: Installer Databricks dans le CLI
-        uses: databricks/setup-cli@main   
 
-        
+      - name: Installer Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Valider le bundle
+        run: databricks bundle validate -t dev
