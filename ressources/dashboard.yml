@@ -1,0 +1,6 @@
+resources:
+  dashboards:
+    tableau_energetique:
+      display_name: "Tableau_Energétique"
+      file_path: ../dashboards/Tableau_Energétique.lvdash.json
+      warehouse_id: ${var.warehouse_id}

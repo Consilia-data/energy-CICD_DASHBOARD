@@ -1,0 +1,18 @@
+bundle:
+  name: energy-CICD_DASHBOARD
+
+include:
+  - ressources/*.yml
+
+variables:
+  warehouse_id:
+    description: "ID du SQL Warehouse utilisé par le dashboard"
+    default: "e87075f5b4f31baf"
+
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: "https://dbc-c39ce79b-f4ee.cloud.databricks.com"

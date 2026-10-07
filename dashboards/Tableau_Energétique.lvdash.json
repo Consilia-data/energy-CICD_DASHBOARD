@@ -1,0 +1,308 @@
+{
+  "datasets": [
+    {
+      "name": "5f88e7dc",
+      "displayName": "sites",
+      "queryLines": [
+        "select site_id, \r\n",
+        "       site_name, \r\n",
+        "       technology,\r\n",
+        "       region, \r\n",
+        "       CAST(capacity_mw AS double) as capacity_mw,\r\n",
+        "        _ingested_at,\r\n",
+        "        _source_file,\r\n",
+        "        _batch_id\r\n",
+        "       \r\n",
+        "       from energy_catalog.bronze_energy.sites_raw;"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "b0ac113f",
+      "displayName": "Suivi des sites",
+      "layout": [
+        {
+          "widget": {
+            "name": "liste-des-sites-energetiques",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5f88e7dc",
+                  "fields": [
+                    {
+                      "name": "site_id",
+                      "expression": "`site_id`"
+                    },
+                    {
+                      "name": "site_name",
+                      "expression": "`site_name`"
+                    },
+                    {
+                      "name": "technology",
+                      "expression": "`technology`"
+                    },
+                    {
+                      "name": "region",
+                      "expression": "`region`"
+                    },
+                    {
+                      "name": "capacity_mw",
+                      "expression": "`capacity_mw`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Liste des sites énergétiques ",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "site_id"
+                  },
+                  {
+                    "fieldName": "site_name"
+                  },
+                  {
+                    "fieldName": "technology"
+                  },
+                  {
+                    "fieldName": "region"
+                  },
+                  {
+                    "fieldName": "capacity_mw"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "nombre-de-sites",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5f88e7dc",
+                  "fields": [
+                    {
+                      "name": "countdistinct(site_id)",
+                      "expression": "COUNT(DISTINCT `site_id`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Nombre de sites",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "countdistinct(site_id)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "deuxieme-compteur",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5f88e7dc",
+                  "fields": [
+                    {
+                      "name": "sum(capacity_mw)",
+                      "expression": "SUM(`capacity_mw`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "capacité totale (MW)",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(capacity_mw)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 5,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "capacite-installee-technologie",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5f88e7dc",
+                  "fields": [
+                    {
+                      "name": "technology",
+                      "expression": "`technology`"
+                    },
+                    {
+                      "name": "sum(capacity_mw)",
+                      "expression": "SUM(`capacity_mw`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Capacité énergétique  par technologie",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "technology",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(capacity_mw)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 4,
+            "width": 4,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "technologie1",
+            "queries": [
+              {
+                "name": "dashboards/01f1c1888253168c926bd26bcf42551b/datasets/01f1c18978ff17a59e311b3392f793e3_technology",
+                "query": {
+                  "datasetName": "5f88e7dc",
+                  "fields": [
+                    {
+                      "name": "technology",
+                      "expression": "`technology`"
+                    },
+                    {
+                      "name": "technology_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Technologie",
+                  "fields": []
+                }
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "technology",
+                    "queryName": "dashboards/01f1c1888253168c926bd26bcf42551b/datasets/01f1c18978ff17a59e311b3392f793e3_technology"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 9,
+            "width": 4,
+            "height": 1
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
