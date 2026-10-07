@@ -24,3 +24,7 @@ jobs:
 
       - name: Valider le bundle
         run: databricks bundle validate -t dev
+
+      - name: Déployer le dashboard
+        run: databricks bundle deploy -t dev  
+        
